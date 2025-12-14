@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using back_office.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace back_office.Data
@@ -9,5 +10,7 @@ namespace back_office.Data
             : base(options)
         {
         }
+        
+        public DbSet<Doctor> Doctors { get; set; } 
     }
 }

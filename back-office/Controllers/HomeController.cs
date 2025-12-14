@@ -13,6 +13,11 @@ namespace back_office.Controllers
             _logger = logger;
         }
 
+        // public IActionResult Doctors()
+        // {
+        //     return View();
+        // }
+
         public IActionResult Index()
         {
             return View();
