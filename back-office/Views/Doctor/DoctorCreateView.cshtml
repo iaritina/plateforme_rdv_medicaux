@@ -1,0 +1,28 @@
+﻿@{
+    ViewData["Title"] = "Ajouter un docteur";
+}
+
+@model back_office.Models.Doctor
+
+<div class="text-center">
+    <h1 class="display-4">Ajouter un docteur ici</h1>
+</div>
+
+<form asp-action="StoreDoctor" asp-controller="Doctor">
+    <div class="mb-3">
+        <label  class="form-label">Email address</label>
+        <input type="email" class="form-control"  placeholder="name@example.com">
+    </div>
+    <div class="mb-3">
+        <label  class="form-label">Email address</label>
+        <input type="email" class="form-control" placeholder="name@example.com">
+    </div>
+    <div class="mb-3">
+        <label  class="form-label">Email address</label>
+        <input type="email" class="form-control"  placeholder="name@example.com">
+    </div>
+    <div class="mb-3">
+        <label  class="form-label">Email address</label>
+        <input type="email" class="form-control"  placeholder="name@example.com">
+    </div>
+</form>

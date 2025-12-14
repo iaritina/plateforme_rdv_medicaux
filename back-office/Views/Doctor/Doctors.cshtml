@@ -1,0 +1,27 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+	ViewData["Title"] = "Doctors";
+}
+<div class="text-center">
+	<h1 class="display-4">Voici la liste des docteurs</h1>
+
+</div>
+
+<div class="row">
+	<div class="col">
+		<a asp-controller="Doctor" asp-action="DoctorCreateView"><button type="button" class="btn btn-primary">Ajouter un docteur</button></a>
+	</div>
+</div>
+
+<div class="text-start">
+	<ul>
+		<li>
+			Docteur John Smith - Cardiologue
+		</li>
+		<li>
+			Docteur Emily Johnson - Neurologue
+		</li>
+	</ul>
+</div>
