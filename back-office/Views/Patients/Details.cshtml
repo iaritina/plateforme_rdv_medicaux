@@ -1,0 +1,23 @@
+﻿@model back_office.Models.Patient
+
+<h2>Détails Patient</h2>
+
+<div class="form-group">
+    <label>Nom :</label>
+    <p>@Model.FullName</p>
+</div>
+
+<div class="form-group">
+    <label>Date de naissance :</label>
+    <p>@Model.DateBirth.ToString("dd/MM/yyyy")</p>
+</div>
+
+<div class="form-group">
+    <label>Genre :</label>
+    <p>@Model.Gender</p>
+</div>
+
+<p>
+    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Modifier</a>
+    <a asp-action="Index" class="btn btn-secondary">Retour à la liste</a>
+</p>

@@ -1,0 +1,84 @@
+﻿@model IEnumerable<back_office.Models.Patient>
+
+@{
+    int pageSize = ViewBag.PageSize ?? 10;
+    int totalPatients = ViewBag.TotalPatients ?? 0;
+    int currentPage = ViewBag.CurrentPage ?? 1;
+    int totalPages = ViewBag.TotalPages ?? 1;
+    var sizes = new int[] { 5, 10, 20, 50 };
+}
+
+<h2>Liste des Patients</h2>
+
+<div class="d-flex justify-content-between mb-3">
+    <!-- Nombre de résultats -->
+    <div>
+        <strong>@totalPatients</strong> résultat(s)
+    </div>
+    
+    <div>
+        <a asp-action="Create" class="btn btn-primary">Ajouter un Patient</a>
+    </div>
+
+    <!-- Changer le nombre de données par page -->
+    <div>
+        <form asp-action="Index" method="get" class="form-inline">
+            <label for="pageSizeSelect" class="mr-2">Afficher :</label>
+            <select id="pageSizeSelect" name="pageSize" class="form-select" style="width:auto; display:inline-block;" onchange="this.form.submit()">
+                @foreach (var size in sizes)
+                {
+                    <option value="@size" selected="@(size == pageSize ? "selected" : null)">@size</option>
+                }
+            </select>
+        </form>
+    </div>
+</div>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Nom</th>
+            <th>Date de naissance</th>
+            <th>Genre</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.FullName</td>
+            <td>@item.DateBirth.ToString("dd/MM/yyyy")</td>
+            <td>@item.Gender</td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning">Edit</a>
+                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-info">Details</a>
+                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger">Delete</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+<!-- Pagination -->
+<nav aria-label="Page navigation">
+    <ul class="pagination justify-content-end">
+        <li class="page-item @(currentPage==1 ? "disabled" : "")">
+            <a class="page-link" asp-action="Index" asp-route-pageNumber="1" asp-route-pageSize="@pageSize">&laquo;</a>
+        </li>
+        <li class="page-item @(currentPage==1 ? "disabled" : "")">
+            <a class="page-link" asp-action="Index" asp-route-pageNumber="@(currentPage-1)" asp-route-pageSize="@pageSize">&lt;</a>
+        </li>
+
+        <li class="page-item disabled">
+            <span class="page-link">Page @currentPage sur @totalPages</span>
+        </li>
+
+        <li class="page-item @(currentPage==totalPages ? "disabled" : "")">
+            <a class="page-link" asp-action="Index" asp-route-pageNumber="@(currentPage+1)" asp-route-pageSize="@pageSize">&gt;</a>
+        </li>
+        <li class="page-item @(currentPage==totalPages ? "disabled" : "")">
+            <a class="page-link" asp-action="Index" asp-route-pageNumber="@totalPages" asp-route-pageSize="@pageSize">&raquo;</a>
+        </li>
+    </ul>
+</nav>
