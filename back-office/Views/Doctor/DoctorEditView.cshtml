@@ -1,0 +1,27 @@
+﻿@{
+    ViewData["Title"] = "Modifier docteur";
+}
+
+@model Doctor
+<div class="text-center">
+    <h1 class="display-4">Modifier le docteur</h1>
+</div>
+
+<form asp-action="UpdateDoctor" asp-controller="Doctor">
+    <input type="hidden" class="form-control" asp-for="Id">
+    <div class="mb-3">
+        <label class="form-label">Nom</label>
+        <input type="text" class="form-control" asp-for="FullName" placeholder="RAJAO Rabe">
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Email</label>
+        <input type="email" class="form-control" asp-for="Email" placeholder="name@example.com">
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Contact</label>
+        <input type="text" class="form-control" asp-for="Contact" placeholder="+261XXXXXX">
+    </div>
+    <div class="mb-3">
+        <button type="submit" class="btn btn-primary">Modifier</button>
+    </div>
+</form>
