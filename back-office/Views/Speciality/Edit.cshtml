@@ -3,6 +3,28 @@
     ViewData["Title"] = "Modifier Spécialité";
 }
 <h2>Modifier un Spécialité</h2>
+
+<h3>Types de consultation</h3>
+@if (Model.ConsultationTypes.Any())
+{
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Nom</th>
+            <th>Durée moyenne (min)</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var type in Model.ConsultationTypes)
+        {
+            <tr>
+                <td>@type.NameTypeConsul</td>
+                <td>@type.AvgDuration</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
 <form asp-action="Edit" method="post">
     <input type="hidden" asp-for="IdSpec" />
     <div class="form-group">

@@ -1,14 +1,14 @@
 ﻿
 @{
-    ViewData["Title"] = "Liste Spécialités";
+    ViewData["Title"] = "Liste type de consultations";
 }
 
-@model List<Specialities>
+@model List<ConsultationType>
 <div class="container mt-4">
     <div class="d-flex justify-content-between align-items-center mb-3">
-        <h2>Liste des Spécialités</h2>
+        <h2>Liste des types de consultations</h2>
         <a asp-action="Create" class="btn btn-primary">
-            <i class="bi bi-plus-circle me-1"></i> Ajouter un Spécialité
+            <i class="bi bi-plus-circle me-1"></i> Ajouter un type de consultation
         </a>
     </div>
 
@@ -18,8 +18,9 @@
         <table class="table table-striped table-hover">
             <thead class="table-light">
             <tr>
-                <th>Nom</th>
-                <th>Type de consultations</th>
+                <th>Spécialité</th>
+                <th>Consultation</th>
+                <th>Durée moyenne</th>
                 <th scope="col" class="text-center">Action</th>
             </tr>
             </thead>
@@ -27,7 +28,7 @@
             @if (!Model.Any())
             {
                 <tr>
-                    <td colspan="4" class="text-center text-muted py-4">Aucune Spécialité trouvée.</td>
+                    <td colspan="4" class="text-center text-muted py-4">Aucun type de consultation trouvé.</td>
                 </tr>
             }
             else
@@ -35,32 +36,25 @@
                 @foreach (var item in Model)
                 {
                     <tr>
-                        <td>@item.NameSpec</td>
-                        @if (item.ConsultationTypes.Any())
+                        @if (item.Speciality != null)
                         {
-                            <td>
-                                <ul>
-                                    @foreach (var type in item.ConsultationTypes)
-                                    {
-                                        <li>@type.NameTypeConsul</li>
-                                    }
-                                </ul>
-
-                            </td>
+                            <td>@item.Speciality?.NameSpec</td>
                         }
                         else
                         {
-                            <td>Aucun type de consultation</td>
+                            <td>Aucune Spécialité</td>
                         }
+                        <td>@item.NameTypeConsul</td>
+                        <td>@item.AvgDuration</td>
                         <td class="text-center">
                             <!-- Modifier -->
-                            <a asp-action="Edit" asp-route-id="@item.IdSpec"
+                            <a asp-action="Edit" asp-route-id="@item.IdTypeConsul"
                                class="btn btn-outline-secondary btn-sm me-1">
                                 <i class="bi bi-pencil-fill"></i>
                             </a>
 
                             <!-- Supprimer -->
-                            <form asp-action="Delete" asp-route-id="@item.IdSpec" method="post" class="d-inline">
+                            <form asp-action="Delete" asp-route-id="@item.IdTypeConsul" method="post" class="d-inline">
                                 <button type="submit" class="btn btn-outline-danger btn-sm">
                                     <i class="bi bi-trash-fill"></i>
                                 </button>

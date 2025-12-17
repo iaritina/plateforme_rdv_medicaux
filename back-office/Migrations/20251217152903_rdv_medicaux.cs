@@ -215,6 +215,27 @@ namespace back_office.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "ConsultationTypes",
+                columns: table => new
+                {
+                    IdTypeConsul = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ID_SPEC = table.Column<int>(type: "int", nullable: false),
+                    NameTypeConsul = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    AvgDuration = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ConsultationTypes", x => x.IdTypeConsul);
+                    table.ForeignKey(
+                        name: "FK_ConsultationTypes_Specialities_ID_SPEC",
+                        column: x => x.ID_SPEC,
+                        principalTable: "Specialities",
+                        principalColumn: "IdSpec",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -253,6 +274,11 @@ namespace back_office.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ConsultationTypes_ID_SPEC",
+                table: "ConsultationTypes",
+                column: "ID_SPEC");
         }
 
         /// <inheritdoc />
@@ -274,13 +300,13 @@ namespace back_office.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "ConsultationTypes");
+
+            migrationBuilder.DropTable(
                 name: "DOCTORS");
 
             migrationBuilder.DropTable(
                 name: "Patients");
-
-            migrationBuilder.DropTable(
-                name: "Specialities");
 
             migrationBuilder.DropTable(
                 name: "Users");
@@ -290,6 +316,9 @@ namespace back_office.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Specialities");
         }
     }
 }

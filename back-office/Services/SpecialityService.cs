@@ -1,5 +1,6 @@
 ﻿using back_office.Data;
 using back_office.Models;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace back_office.Services;
 
@@ -19,13 +20,16 @@ public class SpecialityService
     // READ - List
     public async Task<List<Specialities>> GetAllAsync()
     {
-        return await _context.Specialities.ToListAsync();
+        return await _context.Specialities
+            .Include(s => s.ConsultationTypes)
+            .ToListAsync();
     }
 
     // READ - By Id
     public async Task<Specialities?> GetByIdAsync(int id)
     {
         return await _context.Specialities
+            .Include(s =>s.ConsultationTypes)
             .FirstOrDefaultAsync(s => s.IdSpec == id);
     }
 
@@ -47,6 +51,9 @@ public class SpecialityService
     public async Task DeleteAsync(int id)
     {
         var speciality = await GetByIdAsync(id);
+
+        if (speciality != null && speciality.ConsultationTypes.Any())
+            throw new Exception("Unable to delete speciality");
         if (speciality != null)
         {
             _context.Specialities.Remove(speciality);
@@ -57,5 +64,17 @@ public class SpecialityService
     public async Task<bool> ExistsAsync(int id)
     {
         return await _context.Specialities.AnyAsync(s => s.IdSpec == id);
+    }
+    
+    public async Task<List<SelectListItem>> GetSpecialitiesForSelectAsync()
+    {
+        return await _context.Specialities
+            .OrderBy(s => s.NameSpec)
+            .Select(s => new SelectListItem
+            {
+                Value = s.IdSpec.ToString(),
+                Text = s.NameSpec
+            })
+            .ToListAsync();
     }
 }

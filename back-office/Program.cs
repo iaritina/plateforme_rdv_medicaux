@@ -16,6 +16,7 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<DoctorService>();
 builder.Services.AddScoped<SpecialityService>();
+builder.Services.AddScoped<ConsultationTypeService>();
 
 var app = builder.Build();
 

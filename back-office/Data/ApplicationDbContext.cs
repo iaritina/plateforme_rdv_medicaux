@@ -16,5 +16,6 @@ namespace back_office.Data
         public DbSet<User> Users { get; set; }
         
         public DbSet<Specialities> Specialities { get; set; }
+        public DbSet<ConsultationType> ConsultationTypes { get; set; }
     }
 }

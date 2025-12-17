@@ -12,7 +12,7 @@ using back_office.Data;
 namespace back_office.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20251217080535_rdv_medicaux")]
+    [Migration("20251217152903_rdv_medicaux")]
     partial class rdv_medicaux
     {
         /// <inheritdoc />
@@ -227,6 +227,32 @@ namespace back_office.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("back_office.Models.ConsultationType", b =>
+                {
+                    b.Property<int>("IdTypeConsul")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdTypeConsul"));
+
+                    b.Property<int?>("AvgDuration")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IdSpec")
+                        .HasColumnType("int")
+                        .HasColumnName("ID_SPEC");
+
+                    b.Property<string>("NameTypeConsul")
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.HasKey("IdTypeConsul");
+
+                    b.HasIndex("IdSpec");
+
+                    b.ToTable("ConsultationTypes");
+                });
+
             modelBuilder.Entity("back_office.Models.Doctor", b =>
                 {
                     b.Property<int>("Id")
@@ -379,6 +405,22 @@ namespace back_office.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("back_office.Models.ConsultationType", b =>
+                {
+                    b.HasOne("back_office.Models.Specialities", "Speciality")
+                        .WithMany("ConsultationTypes")
+                        .HasForeignKey("IdSpec")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Speciality");
+                });
+
+            modelBuilder.Entity("back_office.Models.Specialities", b =>
+                {
+                    b.Navigation("ConsultationTypes");
                 });
 #pragma warning restore 612, 618
         }
