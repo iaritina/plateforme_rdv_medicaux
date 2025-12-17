@@ -14,5 +14,7 @@ namespace back_office.Data
         public DbSet<Doctor> Doctors { get; set; } 
         public DbSet<Patient> Patients { get; set; }
         public DbSet<User> Users { get; set; }
+        
+        public DbSet<Specialities> Specialities { get; set; }
     }
 }

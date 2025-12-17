@@ -1,0 +1,15 @@
+﻿
+@model Specialities
+@{
+    ViewData["Title"] = "Ajouter Spécialité";
+}
+<h2>Créer un Spécialité</h2>
+<form asp-action="Create" method="post">
+    <div class="form-group">
+        <label asp-for="NameSpec"></label>
+        <input asp-for="NameSpec" class="form-control" />
+        <span asp-validation-for="NameSpec" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Enregistrer</button>
+</form>
