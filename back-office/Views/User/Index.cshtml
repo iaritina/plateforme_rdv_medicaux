@@ -1,33 +1,110 @@
 ﻿@{
+    Layout = "_AuthLayout";
     ViewData["Title"] = "Connexion";
 }
 
-<div class="d-flex justify-content-center align-items-center vh-100">
-    <div class="card p-4" style="width: 400px;">
-        <h3 class="card-title text-center mb-3">Connexion</h3>
+<style>
+    html, body {
+        height: 100%;
+        margin: 0;
+        overflow: hidden;
+    }
 
-        @if (ViewBag.Error != null)
-        {
-            <div class="alert alert-danger">@ViewBag.Error</div>
-        }
+    .split-screen-container {
+        height: 100vh;
+    }
 
-        <form asp-controller="User" asp-action="Login" method="post">
-            <div class="mb-3">
-                <label for="email" class="form-label">Email</label>
-                <input type="email" class="form-control" id="email" name="email" required />
+    .form-side {
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 60px;
+    }
+
+    .login-wrapper {
+        width: 100%;
+        max-width: 420px;
+    }
+
+    .image-side {
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #f8f9fa;
+    }
+
+    .image-side img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+</style>
+
+<div class="container-fluid split-screen-container p-0">
+    <div class="row g-0 h-100">
+
+        <!-- LOGIN - GAUCHE -->
+        <div class="col-lg-6 form-side">
+            <div class="login-wrapper">
+
+                <h3 class="text-center mb-4 fw-bold">
+                    <i class="bi bi-person-circle me-2"></i> Connexion
+                </h3>
+
+                @if (ViewBag.Error != null)
+                {
+                    <div class="alert alert-danger">
+                        @ViewBag.Error
+                    </div>
+                }
+
+                <form asp-controller="User" asp-action="Login" method="post">
+
+                    <div class="mb-3">
+                        <label class="form-label">Email</label>
+                        <input type="email"
+                               name="email"
+                               class="form-control form-control-lg"
+                               required />
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label">Mot de passe</label>
+                        <input type="password"
+                               name="password"
+                               class="form-control form-control-lg"
+                               required />
+                    </div>
+
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <div class="form-check">
+                            <input class="form-check-input"
+                                   type="checkbox"
+                                   name="rememberMe"
+                                   id="rememberMe">
+                            <label class="form-check-label" for="rememberMe">
+                                Se souvenir de moi
+                            </label>
+                        </div>
+                        <a href="#" class="text-decoration-none small">
+                            Mot de passe oublié ?
+                        </a>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-lg w-100">
+                        Se connecter
+                    </button>
+
+                </form>
             </div>
+        </div>
 
-            <div class="mb-3">
-                <label for="password" class="form-label">Mot de passe</label>
-                <input type="password" class="form-control" id="password" name="password" required />
-            </div>
+        <!-- IMAGE - DROITE -->
+        <div class="col-lg-6 image-side d-none d-lg-flex">
+            <img src="~/images/login.png" alt="Illustration médicale">
+        </div>
 
-            <div class="mb-3 form-check">
-                <input type="checkbox" class="form-check-input" id="rememberMe" name="rememberMe" />
-                <label class="form-check-label" for="rememberMe">Se souvenir de moi</label>
-            </div>
-
-            <button type="submit" class="btn btn-primary w-100">Se connecter</button>
-        </form>
     </div>
 </div>
