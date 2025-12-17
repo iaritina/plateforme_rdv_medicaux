@@ -16,7 +16,6 @@
             <i class="bi bi-plus-circle me-1"></i> Ajouter un Patient
         </a>
     </div>
-    
 
     <!-- Tableau -->
     <div class="table-responsive">
@@ -51,12 +50,15 @@
                                     <i class="bi bi-pencil-fill"></i>
                                 </a>
 
-                                <!-- Supprimer -->
-                                <form asp-action="Delete" asp-route-id="@item.Id" method="post" class="d-inline">
-                                    <button type="submit" class="btn btn-outline-danger btn-sm">
-                                        <i class="bi bi-trash-fill"></i>
-                                    </button>
-                                </form>
+                                <!-- Supprimer (ouvre la modale) -->
+                                <button type="button"
+                                        class="btn btn-outline-danger btn-sm"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#deleteModal"
+                                        data-patient-id="@item.Id"
+                                        data-patient-name="@item.FullName">
+                                    <i class="bi bi-trash-fill"></i>
+                                </button>
                             </td>
                         </tr>
                     }
@@ -122,3 +124,46 @@
         </nav>
     </div>
 </div>
+
+<!-- Modale de confirmation de suppression -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title" id="deleteModalLabel">Supprimer ce patient ?</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+            </div>
+            <div class="modal-body">
+                <p>Êtes-vous sûr de vouloir supprimer le patient suivant ?</p>
+                <strong id="patientNameToDelete"></strong>
+                <p class="mt-3 text-danger"><small>Cette action est irréversible.</small></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                <form id="deleteForm" method="post" asp-action="Delete">
+                    <input type="hidden" name="id" id="deletePatientId" />
+                    <button type="submit" class="btn btn-danger">Confirmer la suppression</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const deleteModal = document.getElementById('deleteModal');
+            const patientNameElement = document.getElementById('patientNameToDelete');
+            const deletePatientIdInput = document.getElementById('deletePatientId');
+
+            deleteModal.addEventListener('show.bs.modal', function (event) {
+                const button = event.relatedTarget; // Bouton qui a déclenché la modale
+                const patientId = button.getAttribute('data-patient-id');
+                const patientName = button.getAttribute('data-patient-name');
+
+                patientNameElement.textContent = patientName;
+                deletePatientIdInput.value = patientId;
+            });
+        });
+    </script>
+}
