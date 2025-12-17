@@ -69,16 +69,6 @@ public class SpecialityController : Controller
         return View(speciality);
     }
 
-    // DELETE (GET)
-    /*public async Task<IActionResult> Delete(int id)
-    {
-        var speciality = await _service.GetByIdAsync(id);
-        if (speciality == null)
-            return NotFound();
-
-        return View(speciality);
-    }*/
-
     // DELETE (POST)
     [HttpPost, ActionName("Delete")]
     [ValidateAntiForgeryToken]

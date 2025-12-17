@@ -12,8 +12,8 @@ using back_office.Data;
 namespace back_office.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20251216172649_rdv-medicaux")]
-    partial class rdvmedicaux
+    [Migration("20251217080535_rdv_medicaux")]
+    partial class rdv_medicaux
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -283,6 +283,23 @@ namespace back_office.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Patients");
+                });
+
+            modelBuilder.Entity("back_office.Models.Specialities", b =>
+                {
+                    b.Property<int>("IdSpec")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdSpec"));
+
+                    b.Property<string>("NameSpec")
+                        .HasMaxLength(80)
+                        .HasColumnType("nvarchar(80)");
+
+                    b.HasKey("IdSpec");
+
+                    b.ToTable("Specialities");
                 });
 
             modelBuilder.Entity("back_office.Models.User", b =>

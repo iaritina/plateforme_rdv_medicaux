@@ -1,8 +1,15 @@
-﻿@model TModel
-
+﻿@model Specialities
 @{
-    ViewBag.Title = "title";
-    Layout = "_Layout";
+    ViewData["Title"] = "Modifier Spécialité";
 }
+<h2>Modifier un Spécialité</h2>
+<form asp-action="Edit" method="post">
+    <input type="hidden" asp-for="IdSpec" />
+    <div class="form-group">
+        <label asp-for="NameSpec"></label>
+        <input asp-for="NameSpec" class="form-control"/>
+        <span asp-validation-for="NameSpec" class="text-danger"></span>
+    </div>
 
-<h2>title</h2>
+    <button type="submit" class="btn btn-primary">Enregistrer</button>
+</form>

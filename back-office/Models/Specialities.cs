@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 public class Specialities
 {
     [Key]
-    [DatabaseGenerated(DatabaseGeneratedOption.None)]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int IdSpec { get; set; }
 
     [StringLength(80)]
