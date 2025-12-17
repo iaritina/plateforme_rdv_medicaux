@@ -1,0 +1,45 @@
+﻿@model back_office.ViewModels.ConsultationTypeCreateViewModel
+@{
+    ViewData["Title"] = "Modifier Type Consultation";
+}
+<h2>Modifier un Type Consultation</h2>
+<form asp-action="Edit" method="post">
+    <input type="hidden" asp-for="ConsultationType.IdTypeConsul" />
+
+    <div class="row mb-3">
+        <div class="col-3">
+            <div class="form-group">
+                <label>Spécialité</label>
+                <select class="form-select" aria-label="Default select example"
+                        asp-items="Model.Specialities" asp-for="ConsultationType.IdSpec">
+                    <option selected>Open this select menu</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-6">
+            <div class="form-group">
+                <label>Nom du type de consultation</label>
+                <input asp-for="ConsultationType.NameTypeConsul" class="form-control"/>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="form-group">
+                <label>Duree en moyenne</label>
+                <input asp-for="ConsultationType.AvgDuration" class="form-control"/>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-3">
+        <div class="col">
+
+            <button type="submit" class="btn btn-primary">Enregistrer</button>
+        </div>
+
+    </div>
+
+
+</form>

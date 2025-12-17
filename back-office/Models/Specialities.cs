@@ -11,4 +11,7 @@ public class Specialities
 
     [StringLength(80)]
     public string? NameSpec { get; set; }
+    
+    public ICollection<ConsultationType> ConsultationTypes { get; set; }
+        = new List<ConsultationType>();
 }
