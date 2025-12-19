@@ -285,6 +285,38 @@ namespace back_office.Migrations
                     b.ToTable("DOCTORS");
                 });
 
+            modelBuilder.Entity("back_office.Models.DoctorAvailability", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("ID_AVBL");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("DayWeek")
+                        .HasColumnType("int")
+                        .HasColumnName("DAY_WEEK");
+
+                    b.Property<int>("DoctorId")
+                        .HasColumnType("int")
+                        .HasColumnName("ID_DOC");
+
+                    b.Property<TimeSpan>("EndTime")
+                        .HasColumnType("time")
+                        .HasColumnName("END_TIME");
+
+                    b.Property<TimeSpan>("StartTime")
+                        .HasColumnType("time")
+                        .HasColumnName("START_TIME");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DoctorId");
+
+                    b.ToTable("DOCTOR_AVAILABILITY");
+                });
+
             modelBuilder.Entity("back_office.Models.Patient", b =>
                 {
                     b.Property<int>("Id")
@@ -413,6 +445,20 @@ namespace back_office.Migrations
                         .IsRequired();
 
                     b.Navigation("Speciality");
+                });
+
+            modelBuilder.Entity("back_office.Models.DoctorAvailability", b =>
+                {
+                    b.HasOne("back_office.Models.Doctor", null)
+                        .WithMany("Availabilities")
+                        .HasForeignKey("DoctorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("back_office.Models.Doctor", b =>
+                {
+                    b.Navigation("Availabilities");
                 });
 
             modelBuilder.Entity("back_office.Models.Specialities", b =>

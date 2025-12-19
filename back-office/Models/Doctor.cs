@@ -21,5 +21,7 @@ namespace back_office.Models
         public string? Contact { get; set; }
 
         [Column("IS_DISABLED")] public int? IsDisabled { get; set; } = 0;
+        
+        public ICollection<DoctorAvailability> Availabilities { get; set; } = new List<DoctorAvailability>();
     }
 }

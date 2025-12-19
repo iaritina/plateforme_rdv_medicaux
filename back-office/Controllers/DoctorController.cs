@@ -1,5 +1,6 @@
 ﻿using back_office.Models;
 using back_office.Services;
+using back_office.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace back_office.Controllers;
@@ -9,11 +10,14 @@ public class DoctorController : Controller
     private readonly ILogger<DoctorController> _logger;
 
     private readonly DoctorService _service;
+    
+    private readonly DoctorAvailabilityService _availabilityService;
 
-    public DoctorController(DoctorService service, ILogger<DoctorController> logger)
+    public DoctorController(DoctorService service, ILogger<DoctorController> logger,  DoctorAvailabilityService availabilityService)
     {
         _service = service;
         _logger = logger;
+        _availabilityService = availabilityService;
     }
 
     // GET
@@ -76,5 +80,11 @@ public class DoctorController : Controller
         _service.DeleteDoctor(id);
         _logger.LogInformation("Doctor with ID: " + id + " has been deleted");
         return RedirectToAction("Doctors");
+    }
+
+    public async Task<IActionResult> DoctorCalendar(int id)
+    {
+        DoctorProgramViewModel? doctorPrograms = await _availabilityService.GetDoctorPrograms(id);
+        return View(doctorPrograms);
     }
 }

@@ -216,6 +216,28 @@ namespace back_office.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "DOCTOR_AVAILABILITY",
+                columns: table => new
+                {
+                    ID_AVBL = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    DAY_WEEK = table.Column<int>(type: "int", nullable: false),
+                    START_TIME = table.Column<TimeSpan>(type: "time", nullable: false),
+                    END_TIME = table.Column<TimeSpan>(type: "time", nullable: false),
+                    ID_DOC = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DOCTOR_AVAILABILITY", x => x.ID_AVBL);
+                    table.ForeignKey(
+                        name: "FK_DOCTOR_AVAILABILITY_DOCTORS_ID_DOC",
+                        column: x => x.ID_DOC,
+                        principalTable: "DOCTORS",
+                        principalColumn: "ID_DOC",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ConsultationTypes",
                 columns: table => new
                 {
@@ -279,6 +301,11 @@ namespace back_office.Migrations
                 name: "IX_ConsultationTypes_ID_SPEC",
                 table: "ConsultationTypes",
                 column: "ID_SPEC");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_DOCTOR_AVAILABILITY_ID_DOC",
+                table: "DOCTOR_AVAILABILITY",
+                column: "ID_DOC");
         }
 
         /// <inheritdoc />
@@ -303,7 +330,7 @@ namespace back_office.Migrations
                 name: "ConsultationTypes");
 
             migrationBuilder.DropTable(
-                name: "DOCTORS");
+                name: "DOCTOR_AVAILABILITY");
 
             migrationBuilder.DropTable(
                 name: "Patients");
@@ -319,6 +346,9 @@ namespace back_office.Migrations
 
             migrationBuilder.DropTable(
                 name: "Specialities");
+
+            migrationBuilder.DropTable(
+                name: "DOCTORS");
         }
     }
 }

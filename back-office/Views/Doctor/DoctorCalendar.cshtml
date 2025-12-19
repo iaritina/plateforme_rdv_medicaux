@@ -1,0 +1,29 @@
+﻿@model back_office.ViewModels.DoctorProgramViewModel
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+<h2>Voici le programme du docteur @Model.DoctorName</h2>
+
+<h2>Emploi du temps du Dr @Model.DoctorName</h2>
+
+@foreach (var day in Model.Days)
+{
+    <h4>@day.DayName</h4>
+
+    @if (!day.TimeSlots.Any())
+    {
+        <p>Aucune disponibilité</p>
+    }
+    else
+    {
+        <ul>
+            @foreach (var slot in day.TimeSlots)
+            {
+                <li>@slot.StartTime - @slot.EndTime</li>
+            }
+        </ul>
+    }
+}

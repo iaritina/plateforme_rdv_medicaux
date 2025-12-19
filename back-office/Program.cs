@@ -17,6 +17,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<DoctorService>();
 builder.Services.AddScoped<SpecialityService>();
 builder.Services.AddScoped<ConsultationTypeService>();
+builder.Services.AddScoped<DoctorAvailabilityService>();
 
 var app = builder.Build();
 
