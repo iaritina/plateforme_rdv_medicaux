@@ -14,4 +14,6 @@ public class Specialities
     
     public ICollection<ConsultationType> ConsultationTypes { get; set; }
         = new List<ConsultationType>();
+
+    public ICollection<DoctorSpeciality> DoctorSpecialities { get; set; } = new List<DoctorSpeciality>();
 }
