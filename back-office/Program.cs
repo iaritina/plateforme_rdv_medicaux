@@ -18,6 +18,7 @@ builder.Services.AddScoped<DoctorService>();
 builder.Services.AddScoped<SpecialityService>();
 builder.Services.AddScoped<ConsultationTypeService>();
 builder.Services.AddScoped<DoctorAvailabilityService>();
+builder.Services.AddScoped<DoctorSpecialityService>();
 
 var app = builder.Build();
 

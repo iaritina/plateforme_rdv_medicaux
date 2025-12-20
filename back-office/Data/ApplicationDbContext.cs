@@ -10,13 +10,41 @@ namespace back_office.Data
             : base(options)
         {
         }
-        
-        public DbSet<Doctor> Doctors { get; set; } 
+
+        public DbSet<Doctor> Doctors { get; set; }
         public DbSet<Patient> Patients { get; set; }
         public DbSet<User> Users { get; set; }
-        
+
         public DbSet<Specialities> Specialities { get; set; }
         public DbSet<ConsultationType> ConsultationTypes { get; set; }
         public DbSet<DoctorAvailability> DoctorAvailabilities { get; set; }
+        public DbSet<DoctorSpeciality> DoctorSpecialities { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+            builder.Entity<DoctorSpeciality>(entity =>
+            {
+                entity.ToTable("DOCTOR_SPECIALITY");
+
+                entity.HasKey(ds => new { ds.DoctorId, ds.SpecialityId });
+
+                entity.Property(ds => ds.DoctorId)
+                    .HasColumnName("ID_DOC");
+
+                entity.Property(ds => ds.SpecialityId)
+                    .HasColumnName("ID_SPEC");
+
+                entity.HasOne(ds => ds.Doctor)
+                    .WithMany(d => d.DoctorSpecialities)
+                    .HasForeignKey(ds => ds.DoctorId)
+                    .OnDelete(DeleteBehavior.Restrict);
+
+                entity.HasOne(ds => ds.Speciality)
+                    .WithMany(s => s.DoctorSpecialities)
+                    .HasForeignKey(ds => ds.SpecialityId)
+                    .OnDelete(DeleteBehavior.Restrict);
+            });
+        }
     }
 }

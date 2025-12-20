@@ -12,7 +12,7 @@ using back_office.Data;
 namespace back_office.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20251219104935_rdv_medicaux")]
+    [Migration("20251219183008_rdv_medicaux")]
     partial class rdv_medicaux
     {
         /// <inheritdoc />
@@ -320,6 +320,23 @@ namespace back_office.Migrations
                     b.ToTable("DOCTOR_AVAILABILITY");
                 });
 
+            modelBuilder.Entity("back_office.Models.DoctorSpeciality", b =>
+                {
+                    b.Property<int>("DoctorId")
+                        .HasColumnType("int")
+                        .HasColumnName("ID_DOC");
+
+                    b.Property<int>("SpecialityId")
+                        .HasColumnType("int")
+                        .HasColumnName("ID_SPEC");
+
+                    b.HasKey("DoctorId", "SpecialityId");
+
+                    b.HasIndex("SpecialityId");
+
+                    b.ToTable("DOCTOR_SPECIALITY", (string)null);
+                });
+
             modelBuilder.Entity("back_office.Models.Patient", b =>
                 {
                     b.Property<int>("Id")
@@ -452,21 +469,46 @@ namespace back_office.Migrations
 
             modelBuilder.Entity("back_office.Models.DoctorAvailability", b =>
                 {
-                    b.HasOne("back_office.Models.Doctor", null)
+                    b.HasOne("back_office.Models.Doctor", "Doctor")
                         .WithMany("Availabilities")
                         .HasForeignKey("DoctorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Doctor");
+                });
+
+            modelBuilder.Entity("back_office.Models.DoctorSpeciality", b =>
+                {
+                    b.HasOne("back_office.Models.Doctor", "Doctor")
+                        .WithMany("DoctorSpecialities")
+                        .HasForeignKey("DoctorId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("back_office.Models.Specialities", "Speciality")
+                        .WithMany("DoctorSpecialities")
+                        .HasForeignKey("SpecialityId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Doctor");
+
+                    b.Navigation("Speciality");
                 });
 
             modelBuilder.Entity("back_office.Models.Doctor", b =>
                 {
                     b.Navigation("Availabilities");
+
+                    b.Navigation("DoctorSpecialities");
                 });
 
             modelBuilder.Entity("back_office.Models.Specialities", b =>
                 {
                     b.Navigation("ConsultationTypes");
+
+                    b.Navigation("DoctorSpecialities");
                 });
 #pragma warning restore 612, 618
         }

@@ -23,5 +23,7 @@ namespace back_office.Models
         [Column("IS_DISABLED")] public int? IsDisabled { get; set; } = 0;
         
         public ICollection<DoctorAvailability> Availabilities { get; set; } = new List<DoctorAvailability>();
+        
+        public ICollection<DoctorSpeciality> DoctorSpecialities { get; set; } = new List<DoctorSpeciality>();
     }
 }
