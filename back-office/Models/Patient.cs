@@ -36,5 +36,12 @@ public class Patient
         return ValidationResult.Success;
     }
 
+    public Patient(string fullName, DateTime dateBirth, Gender gender)
+    {
+        FullName = fullName;
+        DateBirth = dateBirth;
+        Gender = gender;
+    }
+
 
 }

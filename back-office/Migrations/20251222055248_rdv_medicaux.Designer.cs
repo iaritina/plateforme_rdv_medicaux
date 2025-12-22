@@ -12,7 +12,7 @@ using back_office.Data;
 namespace back_office.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20251219183008_rdv_medicaux")]
+    [Migration("20251222055248_rdv_medicaux")]
     partial class rdv_medicaux
     {
         /// <inheritdoc />
@@ -225,6 +225,44 @@ namespace back_office.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
+                });
+
+            modelBuilder.Entity("back_office.Models.Appointment", b =>
+                {
+                    b.Property<int>("ID_APT")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID_APT"));
+
+                    b.Property<DateTime>("DATE_START_TIME")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("ID_DOC")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ID_PAT")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ID_TYPE_CONSUL")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PRIORITY")
+                        .HasColumnType("int");
+
+                    b.Property<string>("STATUS")
+                        .IsRequired()
+                        .HasColumnType("char(10)");
+
+                    b.HasKey("ID_APT");
+
+                    b.HasIndex("ID_DOC");
+
+                    b.HasIndex("ID_PAT");
+
+                    b.HasIndex("ID_TYPE_CONSUL");
+
+                    b.ToTable("APPOINTMENT", (string)null);
                 });
 
             modelBuilder.Entity("back_office.Models.ConsultationType", b =>
@@ -454,6 +492,32 @@ namespace back_office.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("back_office.Models.Appointment", b =>
+                {
+                    b.HasOne("back_office.Models.Doctor", "Doctor")
+                        .WithMany()
+                        .HasForeignKey("ID_DOC")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("back_office.Models.Patient", "Patient")
+                        .WithMany()
+                        .HasForeignKey("ID_PAT")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("back_office.Models.ConsultationType", "ConsultationType")
+                        .WithMany()
+                        .HasForeignKey("ID_TYPE_CONSUL")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("ConsultationType");
+
+                    b.Navigation("Doctor");
+
+                    b.Navigation("Patient");
                 });
 
             modelBuilder.Entity("back_office.Models.ConsultationType", b =>

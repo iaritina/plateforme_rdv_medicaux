@@ -282,6 +282,57 @@ namespace back_office.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "APPOINTMENT",
+                columns: table => new
+                {
+                    ID_APT = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ID_PAT = table.Column<int>(type: "int", nullable: true),
+                    ID_TYPE_CONSUL = table.Column<int>(type: "int", nullable: false),
+                    ID_DOC = table.Column<int>(type: "int", nullable: false),
+                    DATE_START_TIME = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    STATUS = table.Column<string>(type: "char(10)", nullable: false),
+                    PRIORITY = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_APPOINTMENT", x => x.ID_APT);
+                    table.ForeignKey(
+                        name: "FK_APPOINTMENT_ConsultationTypes_ID_TYPE_CONSUL",
+                        column: x => x.ID_TYPE_CONSUL,
+                        principalTable: "ConsultationTypes",
+                        principalColumn: "IdTypeConsul",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_APPOINTMENT_DOCTORS_ID_DOC",
+                        column: x => x.ID_DOC,
+                        principalTable: "DOCTORS",
+                        principalColumn: "ID_DOC",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_APPOINTMENT_Patients_ID_PAT",
+                        column: x => x.ID_PAT,
+                        principalTable: "Patients",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_APPOINTMENT_ID_DOC",
+                table: "APPOINTMENT",
+                column: "ID_DOC");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_APPOINTMENT_ID_PAT",
+                table: "APPOINTMENT",
+                column: "ID_PAT");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_APPOINTMENT_ID_TYPE_CONSUL",
+                table: "APPOINTMENT",
+                column: "ID_TYPE_CONSUL");
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -341,6 +392,9 @@ namespace back_office.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "APPOINTMENT");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
             migrationBuilder.DropTable(
@@ -356,19 +410,19 @@ namespace back_office.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "ConsultationTypes");
-
-            migrationBuilder.DropTable(
                 name: "DOCTOR_AVAILABILITY");
 
             migrationBuilder.DropTable(
                 name: "DOCTOR_SPECIALITY");
 
             migrationBuilder.DropTable(
-                name: "Patients");
+                name: "Users");
 
             migrationBuilder.DropTable(
-                name: "Users");
+                name: "ConsultationTypes");
+
+            migrationBuilder.DropTable(
+                name: "Patients");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

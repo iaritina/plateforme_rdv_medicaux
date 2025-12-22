@@ -224,6 +224,44 @@ namespace back_office.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("back_office.Models.Appointment", b =>
+                {
+                    b.Property<int>("ID_APT")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID_APT"));
+
+                    b.Property<DateTime>("DATE_START_TIME")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("ID_DOC")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ID_PAT")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ID_TYPE_CONSUL")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PRIORITY")
+                        .HasColumnType("int");
+
+                    b.Property<string>("STATUS")
+                        .IsRequired()
+                        .HasColumnType("char(10)");
+
+                    b.HasKey("ID_APT");
+
+                    b.HasIndex("ID_DOC");
+
+                    b.HasIndex("ID_PAT");
+
+                    b.HasIndex("ID_TYPE_CONSUL");
+
+                    b.ToTable("APPOINTMENT", (string)null);
+                });
+
             modelBuilder.Entity("back_office.Models.ConsultationType", b =>
                 {
                     b.Property<int>("IdTypeConsul")
@@ -315,6 +353,23 @@ namespace back_office.Migrations
                     b.HasIndex("DoctorId");
 
                     b.ToTable("DOCTOR_AVAILABILITY");
+                });
+
+            modelBuilder.Entity("back_office.Models.DoctorSpeciality", b =>
+                {
+                    b.Property<int>("DoctorId")
+                        .HasColumnType("int")
+                        .HasColumnName("ID_DOC");
+
+                    b.Property<int>("SpecialityId")
+                        .HasColumnType("int")
+                        .HasColumnName("ID_SPEC");
+
+                    b.HasKey("DoctorId", "SpecialityId");
+
+                    b.HasIndex("SpecialityId");
+
+                    b.ToTable("DOCTOR_SPECIALITY", (string)null);
                 });
 
             modelBuilder.Entity("back_office.Models.Patient", b =>
@@ -436,6 +491,32 @@ namespace back_office.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("back_office.Models.Appointment", b =>
+                {
+                    b.HasOne("back_office.Models.Doctor", "Doctor")
+                        .WithMany()
+                        .HasForeignKey("ID_DOC")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("back_office.Models.Patient", "Patient")
+                        .WithMany()
+                        .HasForeignKey("ID_PAT")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("back_office.Models.ConsultationType", "ConsultationType")
+                        .WithMany()
+                        .HasForeignKey("ID_TYPE_CONSUL")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("ConsultationType");
+
+                    b.Navigation("Doctor");
+
+                    b.Navigation("Patient");
+                });
+
             modelBuilder.Entity("back_office.Models.ConsultationType", b =>
                 {
                     b.HasOne("back_office.Models.Specialities", "Speciality")
@@ -449,21 +530,46 @@ namespace back_office.Migrations
 
             modelBuilder.Entity("back_office.Models.DoctorAvailability", b =>
                 {
-                    b.HasOne("back_office.Models.Doctor", null)
+                    b.HasOne("back_office.Models.Doctor", "Doctor")
                         .WithMany("Availabilities")
                         .HasForeignKey("DoctorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Doctor");
+                });
+
+            modelBuilder.Entity("back_office.Models.DoctorSpeciality", b =>
+                {
+                    b.HasOne("back_office.Models.Doctor", "Doctor")
+                        .WithMany("DoctorSpecialities")
+                        .HasForeignKey("DoctorId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("back_office.Models.Specialities", "Speciality")
+                        .WithMany("DoctorSpecialities")
+                        .HasForeignKey("SpecialityId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Doctor");
+
+                    b.Navigation("Speciality");
                 });
 
             modelBuilder.Entity("back_office.Models.Doctor", b =>
                 {
                     b.Navigation("Availabilities");
+
+                    b.Navigation("DoctorSpecialities");
                 });
 
             modelBuilder.Entity("back_office.Models.Specialities", b =>
                 {
                     b.Navigation("ConsultationTypes");
+
+                    b.Navigation("DoctorSpecialities");
                 });
 #pragma warning restore 612, 618
         }
