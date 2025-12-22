@@ -1,5 +1,6 @@
 ﻿using back_office.Data;
 using back_office.Models;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace back_office.Services;
@@ -12,6 +13,7 @@ public class ConsultationTypeService
     {
         _context = context;
     }
+   
 
     public async Task<List<ConsultationType>> GetAllConsulType(int pageNumber, int pageSize)
     {
@@ -21,6 +23,14 @@ public class ConsultationTypeService
             .Skip((pageNumber - 1) * pageSize)
             .Take(pageSize)
             .ToListAsync();;
+    }
+    
+    public async Task<List<ConsultationType>> GetAvailableForAppointmentAsync()
+    {
+        return await _context.ConsultationTypes
+            .Include(ct => ct.Speciality)
+            .OrderBy(ct => ct.NameTypeConsul)
+            .ToListAsync();
     }
     
     public async Task<int> GetTotalConsulTypeCount()

@@ -19,6 +19,7 @@ namespace back_office.Data
         public DbSet<ConsultationType> ConsultationTypes { get; set; }
         public DbSet<DoctorAvailability> DoctorAvailabilities { get; set; }
         public DbSet<DoctorSpeciality> DoctorSpecialities { get; set; }
+        public DbSet<Appointment> Appointments { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -43,6 +44,27 @@ namespace back_office.Data
                 entity.HasOne(ds => ds.Speciality)
                     .WithMany(s => s.DoctorSpecialities)
                     .HasForeignKey(ds => ds.SpecialityId)
+                    .OnDelete(DeleteBehavior.Restrict);
+            });
+            builder.Entity<Appointment>(entity =>
+            {
+                entity.ToTable("APPOINTMENT");
+
+                entity.HasKey(a => a.ID_APT);
+
+                entity.HasOne(a => a.Patient)
+                    .WithMany()
+                    .HasForeignKey(a => a.ID_PAT)
+                    .OnDelete(DeleteBehavior.Restrict);
+
+                entity.HasOne(a => a.ConsultationType)
+                    .WithMany()
+                    .HasForeignKey(a => a.ID_TYPE_CONSUL)
+                    .OnDelete(DeleteBehavior.Restrict);
+
+                entity.HasOne(a => a.Doctor)
+                    .WithMany()
+                    .HasForeignKey(a => a.ID_DOC)
                     .OnDelete(DeleteBehavior.Restrict);
             });
         }
