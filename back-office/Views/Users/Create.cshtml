@@ -1,0 +1,34 @@
+﻿@model back_office.ViewModels.CreateUserViewModel
+
+<h2>Inscription Patient</h2>
+
+<form asp-action="Create" method="post">
+    <div class="row mb-3">
+        <div class="col-3">
+            <div class="form-group">
+                <label>Email</label>
+                <input class="form-group" asp-for="Email"/>
+                <span asp-validation-for="Email"></span>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-3">
+            <div class="form-group">
+                <label>Mot de passe</label>
+                <input class="form-group" asp-for="Password" type="password"/>
+                <span asp-validation-for="Password"></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-3">
+        <div class="col">
+
+            <button type="submit" class="btn btn-primary">Enregistrer</button>
+        </div>
+
+    </div>
+</form>

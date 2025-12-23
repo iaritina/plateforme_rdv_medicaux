@@ -12,7 +12,7 @@ using back_office.Data;
 namespace back_office.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20251222055248_rdv_medicaux")]
+    [Migration("20251223053628_rdv_medicaux")]
     partial class rdv_medicaux
     {
         /// <inheritdoc />
