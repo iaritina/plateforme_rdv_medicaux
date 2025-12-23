@@ -39,8 +39,9 @@ public class UsersController : Controller
 
         var user = new IdentityUser
         {
-            UserName = model.Email,
-            Email = model.Email
+            UserName = model.UserName,
+            Email = model.Email,
+            PhoneNumber = model.PhoneNumber
         };
 
         var result = await _userManager.CreateAsync(user, model.Password);
